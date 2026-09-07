@@ -1,0 +1,1247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Capabilities &amp; SME Resilience — Research Group</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0e1420;
+  --ink-soft:#4a5568;
+  --line:#e3e6ec;
+  --bg:#ffffff;
+  --bg-alt:#f6f7f9;
+  --accent:#1f4fd8;
+  --accent-soft:#eef2ff;
+  --sidebar-w:264px;
+  --serif:'Instrument Serif', Georgia, serif;
+  --sans:'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--sans);
+  color:var(--ink);
+  background:var(--bg);
+  -webkit-font-smoothing:antialiased;
+  line-height:1.65;
+}
+
+/* ---------- SIDEBAR ---------- */
+.sidebar{
+  position:fixed;top:0;left:0;bottom:0;width:var(--sidebar-w);
+  background:#fff;border-right:1px solid var(--line);
+  padding:32px 24px;display:flex;flex-direction:column;z-index:100;
+  overflow-y:auto;
+}
+.brand{display:block;margin-bottom:40px;text-decoration:none;color:inherit}
+.brand-mark{
+  width:38px;height:38px;border-radius:10px;background:var(--accent);
+  color:#fff;display:flex;align-items:center;justify-content:center;
+  font-weight:700;font-size:15px;letter-spacing:-.5px;margin-bottom:14px;
+}
+.brand-title{font-family:var(--serif);font-size:22px;line-height:1.2;letter-spacing:-.2px}
+.brand-sub{font-size:11px;text-transform:uppercase;letter-spacing:1.4px;color:var(--ink-soft);margin-top:6px}
+
+.nav-label{font-size:10px;letter-spacing:1.6px;text-transform:uppercase;color:#9aa2b1;margin-bottom:12px}
+.nav a{
+  display:flex;align-items:center;gap:12px;
+  padding:10px 12px;margin:0 -12px 2px;border-radius:8px;
+  text-decoration:none;color:var(--ink-soft);font-size:14px;font-weight:500;
+  transition:background .15s,color .15s;
+}
+.nav a:hover{background:var(--bg-alt);color:var(--ink)}
+.nav a.active{background:var(--accent-soft);color:var(--accent);font-weight:600}
+.nav .num{
+  font-size:11px;font-variant-numeric:tabular-nums;color:#b3bac6;
+  min-width:16px;font-weight:600;
+}
+.nav a.active .num{color:var(--accent)}
+.sidebar-foot{margin-top:auto;padding-top:28px;font-size:12px;color:#9aa2b1;line-height:1.6}
+
+/* ---------- MAIN ---------- */
+main{margin-left:var(--sidebar-w)}
+.page{display:none;animation:fade .35s ease}
+.page.active{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.wrap{max-width:840px;padding:0 56px}
+
+/* ---------- HERO ---------- */
+.hero{
+  position:relative;min-height:460px;display:flex;align-items:flex-end;
+  padding:56px;overflow:hidden;background:#0e1420;
+}
+.hero img{
+  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.42;
+}
+.hero-inner{position:relative;z-index:2;color:#fff;max-width:760px}
+.eyebrow{
+  display:inline-block;font-size:11px;letter-spacing:1.8px;text-transform:uppercase;
+  background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.22);
+  padding:6px 12px;border-radius:100px;margin-bottom:22px;backdrop-filter:blur(6px);
+}
+.hero h1{
+  font-family:var(--serif);font-size:clamp(34px,5vw,56px);line-height:1.08;
+  letter-spacing:-1px;font-weight:400;margin-bottom:18px;
+}
+.hero h1 em{font-style:italic;color:#a9c2ff}
+.hero p{font-size:17px;color:rgba(255,255,255,.78);max-width:580px}
+
+/* ---------- SECTIONS ---------- */
+section{padding:72px 0}
+section.alt{background:var(--bg-alt);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.sec-tag{font-size:11px;letter-spacing:1.8px;text-transform:uppercase;color:var(--accent);font-weight:600;margin-bottom:14px}
+h2{font-family:var(--serif);font-size:36px;font-weight:400;letter-spacing:-.6px;margin-bottom:20px;line-height:1.15}
+h3{font-size:17px;font-weight:600;margin-bottom:8px;letter-spacing:-.2px}
+p.lead{font-size:17px;color:var(--ink-soft);margin-bottom:26px}
+p{color:var(--ink-soft)}
+
+/* points list */
+.points{list-style:none;margin-top:28px;counter-reset:pt}
+.points li{
+  counter-increment:pt;position:relative;padding:20px 0 20px 52px;
+  border-top:1px solid var(--line);font-size:15.5px;color:var(--ink-soft);
+}
+.points li:last-child{border-bottom:1px solid var(--line)}
+.points li::before{
+  content:counter(pt,decimal-leading-zero);
+  position:absolute;left:0;top:20px;
+  font-size:12px;font-weight:700;color:var(--accent);
+  font-variant-numeric:tabular-nums;letter-spacing:.5px;
+}
+.points strong{color:var(--ink);font-weight:600}
+
+/* model chain */
+.chain{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-top:34px}
+.chip{
+  background:#fff;border:1px solid var(--line);border-radius:9px;
+  padding:12px 16px;font-size:13.5px;font-weight:600;color:var(--ink);
+}
+.chip.acc{background:var(--accent);border-color:var(--accent);color:#fff}
+.arrow{color:#b3bac6;font-size:16px}
+
+/* team */
+.team-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:24px;margin-top:34px}
+.member{text-align:left}
+.avatar{
+  width:100%;aspect-ratio:1;border-radius:12px;background:#e8ebf0;
+  border:1px dashed #c8cedb;display:flex;align-items:center;justify-content:center;
+  color:#a3abb9;font-size:12px;letter-spacing:.4px;margin-bottom:12px;
+}
+.member .role{font-size:13px;color:var(--ink-soft)}
+
+/* placeholder chapters */
+.placeholder{
+  border:1px dashed var(--line);border-radius:14px;padding:48px 40px;
+  text-align:center;background:var(--bg-alt);margin-top:30px;
+}
+.placeholder p{font-size:14.5px}
+
+
+/* ---------- CHAPTER PAGE ---------- */
+.chap-head{padding:72px 0 64px;border-bottom:1px solid var(--line)}
+.chap-head h2{font-size:44px;margin-bottom:14px}
+.subnav{
+  position:sticky;top:0;z-index:50;background:rgba(255,255,255,.9);
+  backdrop-filter:blur(10px);border-bottom:1px solid var(--line);
+}
+.subnav .wrap{display:flex;gap:26px;overflow-x:auto;padding-top:6px;padding-bottom:0}
+.subnav a{
+  padding:16px 0;font-size:13px;font-weight:500;color:var(--ink-soft);
+  text-decoration:none;white-space:nowrap;border-bottom:2px solid transparent;
+  transition:color .15s,border-color .15s;
+}
+.subnav a:hover{color:var(--ink)}
+.subnav a.on{color:var(--accent);border-bottom-color:var(--accent)}
+
+.block{padding:64px 0;border-bottom:1px solid var(--line);scroll-margin-top:60px}
+.block:last-of-type{border-bottom:none}
+
+/* bullet list */
+.bullets{list-style:none;margin-top:22px}
+.bullets li{
+  position:relative;padding:0 0 16px 26px;font-size:15.5px;color:var(--ink-soft);
+}
+.bullets li::before{
+  content:'';position:absolute;left:2px;top:10px;
+  width:6px;height:6px;border-radius:50%;background:var(--accent);
+}
+.bullets strong{color:var(--ink);font-weight:600}
+
+/* RO / RQ paired rows */
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:0;margin-top:26px;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.pair-head{
+  padding:12px 20px;background:var(--bg-alt);font-size:10.5px;letter-spacing:1.5px;
+  text-transform:uppercase;font-weight:700;color:var(--ink-soft);border-bottom:1px solid var(--line);
+}
+.pair-head:first-child{border-right:1px solid var(--line)}
+.pair .cell{padding:18px 20px;border-bottom:1px solid var(--line);font-size:14.5px;color:var(--ink-soft)}
+.pair .cell:nth-child(odd){border-right:1px solid var(--line)}
+.pair .cell:nth-last-child(-n+2){border-bottom:none}
+.tag{
+  display:inline-block;font-size:10.5px;font-weight:700;letter-spacing:.6px;
+  color:var(--accent);background:var(--accent-soft);padding:2px 7px;border-radius:5px;margin-right:8px;
+}
+
+/* hypotheses */
+.hyp{margin-top:26px;display:grid;gap:10px}
+.hyp .row{
+  display:flex;align-items:center;gap:16px;padding:16px 20px;
+  border:1px solid var(--line);border-radius:10px;background:#fff;
+  font-size:14.5px;color:var(--ink-soft);transition:border-color .15s,transform .15s;
+}
+.hyp .row:hover{border-color:var(--accent);transform:translateX(3px)}
+.hyp .code{
+  font-family:var(--serif);font-size:20px;color:var(--accent);
+  min-width:34px;font-style:italic;
+}
+.hyp .row strong{color:var(--ink);font-weight:600}
+.plus{color:#2e9e6b;font-weight:700}
+
+/* scope cards */
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px;margin-top:26px}
+.card{border:1px solid var(--line);border-radius:12px;padding:22px;background:#fff}
+.card .k{font-size:10.5px;letter-spacing:1.4px;text-transform:uppercase;color:var(--accent);font-weight:700;margin-bottom:8px}
+.card p{font-size:14px;margin:0}
+
+@media(max-width:760px){
+  .pair{grid-template-columns:1fr}
+  .pair .cell:nth-child(odd){border-right:none}
+  .pair-head:first-child{border-right:none}
+  .pair .cell:nth-last-child(2){border-bottom:1px solid var(--line)}
+}
+
+
+/* ---------- CH2: theory / process steps ---------- */
+.steps{display:grid;gap:14px;margin-top:26px}
+.step{
+  display:flex;gap:20px;padding:24px;border:1px solid var(--line);
+  border-radius:14px;background:#fff;
+}
+.step-n{
+  flex:0 0 44px;height:44px;border-radius:11px;background:var(--accent-soft);
+  color:var(--accent);display:flex;align-items:center;justify-content:center;
+  font-weight:700;font-size:15px;
+}
+.step h3{margin-bottom:6px;font-size:17px}
+.step p{font-size:14.5px;margin-bottom:8px}
+.step p:last-child{margin-bottom:0}
+.step .ai-note{
+  font-size:13.5px;color:var(--accent);background:var(--accent-soft);
+  padding:10px 14px;border-radius:8px;margin-top:10px;
+}
+.callout{
+  border-left:3px solid var(--accent);background:var(--bg-alt);
+  padding:22px 26px;border-radius:0 12px 12px 0;margin-top:28px;
+}
+.callout p{font-size:15px;margin-bottom:12px}
+.callout p:last-child{margin-bottom:0}
+.theory-cite{font-size:13.5px;color:#9aa2b1;margin-top:-10px;margin-bottom:4px}
+
+/* variable definition list */
+.vars{display:grid;gap:12px;margin-top:24px}
+.var{
+  display:grid;grid-template-columns:88px 1fr;gap:20px;align-items:start;
+  padding:20px 22px;border:1px solid var(--line);border-radius:12px;background:#fff;
+}
+.var-code{
+  font-size:11px;font-weight:700;letter-spacing:.8px;color:#fff;
+  background:var(--accent);padding:5px 0;border-radius:6px;text-align:center;
+}
+.var-code.mv{background:#7a5af5}
+.var-code.dv{background:#0e9f6e}
+.var h3{margin-bottom:5px}
+.var p{font-size:14.5px;margin:0}
+.grp-label{
+  font-size:10.5px;letter-spacing:1.6px;text-transform:uppercase;
+  color:#9aa2b1;font-weight:700;margin:30px 0 4px;
+}
+
+/* framework figure */
+.figure{margin-top:30px;border:1px solid var(--line);border-radius:14px;background:#fff;padding:32px 24px;overflow-x:auto}
+.figure svg{display:block;width:100%;min-width:640px;height:auto}
+.figcap{font-size:13px;color:#9aa2b1;margin-top:18px;text-align:center}
+.fw-box{fill:#fff;stroke:var(--ink);stroke-width:2}
+.fw-box-a{fill:#eef2ff;stroke:#1f4fd8;stroke-width:2}
+.fw-box-d{fill:#e9f8f1;stroke:#0e9f6e;stroke-width:2}
+.fw-t{font-family:var(--sans);font-size:13px;font-weight:700;fill:#0e1420;text-anchor:middle}
+.fw-h{font-family:var(--sans);font-size:14px;font-weight:700;fill:#1f4fd8;text-anchor:middle}
+.fw-line{stroke:#0e1420;stroke-width:2;fill:none;marker-end:url(#ah)}
+
+
+/* ---------- CH3: methodology ---------- */
+.spec{display:grid;gap:0;margin-top:26px;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.spec .r{display:grid;grid-template-columns:230px 1fr;gap:0;border-bottom:1px solid var(--line)}
+.spec .r:last-child{border-bottom:none}
+.spec .k{
+  padding:16px 20px;background:var(--bg-alt);font-size:12.5px;font-weight:700;
+  color:var(--ink);border-right:1px solid var(--line);letter-spacing:.2px;
+}
+.spec .v{padding:16px 20px;font-size:14.5px;color:var(--ink-soft)}
+.spec .v small{display:block;color:#9aa2b1;font-size:12.5px;margin-top:3px}
+
+/* likert strip */
+.likert{display:flex;gap:6px;margin-top:22px;flex-wrap:wrap}
+.likert div{
+  flex:1;min-width:104px;text-align:center;padding:12px 8px;border:1px solid var(--line);
+  border-radius:9px;font-size:12px;color:var(--ink-soft);background:#fff;
+}
+.likert div b{display:block;font-size:18px;color:var(--accent);font-family:var(--serif);margin-bottom:4px}
+
+/* questionnaire sections */
+.two{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:26px}
+.qbox{border:1px solid var(--line);border-radius:12px;padding:24px;background:#fff}
+.qbox h3{margin-bottom:14px}
+.qbox ul{list-style:none}
+.qbox li{
+  font-size:14px;color:var(--ink-soft);padding:9px 0;border-bottom:1px solid var(--line);
+  display:flex;justify-content:space-between;gap:14px;
+}
+.qbox li:last-child{border-bottom:none}
+.qbox li .n{color:var(--accent);font-weight:600;font-size:12.5px;white-space:nowrap}
+
+/* results */
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-top:26px}
+.stat{border:1px solid var(--line);border-radius:12px;padding:24px;background:#fff}
+.stat .val{font-family:var(--serif);font-size:42px;line-height:1;color:var(--accent);margin-bottom:8px}
+.stat .lbl{font-size:13px;color:var(--ink-soft)}
+.stat .sub{font-size:11px;letter-spacing:1.3px;text-transform:uppercase;color:#9aa2b1;font-weight:700;margin-bottom:10px}
+
+table.res{width:100%;border-collapse:collapse;margin-top:26px;font-size:14px}
+table.res th{
+  text-align:left;padding:13px 16px;background:var(--bg-alt);border-bottom:1px solid var(--line);
+  font-size:10.5px;letter-spacing:1.3px;text-transform:uppercase;color:var(--ink-soft);font-weight:700;
+}
+table.res td{padding:14px 16px;border-bottom:1px solid var(--line);color:var(--ink-soft)}
+table.res tr:last-child td{border-bottom:none}
+table.res .path{color:var(--ink);font-weight:500}
+table.res .num{font-variant-numeric:tabular-nums;font-weight:600;color:var(--ink);white-space:nowrap}
+.pill{
+  display:inline-block;font-size:11px;font-weight:700;padding:4px 10px;border-radius:100px;
+  letter-spacing:.3px;white-space:nowrap;
+}
+.pill.sig{background:#e9f8f1;color:#0a7a53}
+.pill.ns{background:#fdecec;color:#c0392b}
+.tblwrap{overflow-x:auto}
+
+/* PLS diagram styling */
+.pls{fill:none}
+.pls-ind{fill:#fef9c3;stroke:#d4c65a;stroke-width:1.5}
+.pls-lv{fill:#3b9bf0;stroke:#1f7fd0;stroke-width:1.5}
+.pls-lv-t{font-family:var(--sans);font-size:12px;font-weight:700;fill:#fff;text-anchor:middle}
+.pls-nm{font-family:var(--sans);font-size:12px;font-weight:700;fill:#0e1420;text-anchor:middle}
+.pls-ind-t{font-family:var(--sans);font-size:11px;font-weight:600;fill:#5c5416;text-anchor:middle}
+.pls-num{font-family:var(--sans);font-size:10.5px;fill:#4a5568;text-anchor:middle;paint-order:stroke;stroke:#fbfbfc;stroke-width:3.5px;stroke-linejoin:round}
+.pls-num.hi{fill:#0a7a53;font-weight:700}
+.pls-num.lo{fill:#c0392b;font-weight:700}
+.pls-arw{stroke:#9aa2b1;stroke-width:1.3;fill:none;marker-end:url(#pah)}
+.pls-arw.thick{stroke:#1f4fd8;stroke-width:2.2;marker-end:url(#pahb)}
+
+@media(max-width:760px){
+  .spec .r{grid-template-columns:1fr}
+  .spec .k{border-right:none;border-bottom:1px solid var(--line)}
+  .two{grid-template-columns:1fr}
+}
+
+
+/* ---------- TEAM ---------- */
+.lect{
+  display:flex;gap:28px;align-items:center;margin-top:30px;padding:28px;
+  border:1px solid var(--line);border-radius:16px;background:#fff;max-width:620px;
+}
+.lect .ph{
+  flex:0 0 132px;width:132px;height:132px;border-radius:14px;overflow:hidden;
+  background:var(--accent-soft);position:relative;
+}
+.lect .ph img,.member .ph img{width:100%;height:100%;object-fit:cover;display:block;position:relative;z-index:2}
+.ph .ini{
+  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  font-family:var(--serif);font-size:34px;color:var(--accent);z-index:1;
+}
+.lect h3{font-size:21px;margin-bottom:6px;letter-spacing:-.2px}
+.lect .role{font-size:14.5px;color:var(--ink-soft)}
+.lect .badge{
+  display:inline-block;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;
+  font-weight:700;color:var(--accent);background:var(--accent-soft);
+  padding:5px 10px;border-radius:6px;margin-bottom:10px;
+}
+.member .ph{
+  width:100%;aspect-ratio:1;border-radius:12px;overflow:hidden;
+  background:var(--accent-soft);position:relative;margin-bottom:14px;
+}
+.member .ph .ini{font-size:30px}
+.member h3{font-size:14.5px;line-height:1.35;margin-bottom:5px}
+.member .matric{
+  font-size:12.5px;color:var(--ink-soft);font-variant-numeric:tabular-nums;
+}
+.team-grid{grid-template-columns:repeat(4,1fr)}
+@media(max-width:900px){.team-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:460px){.team-grid{grid-template-columns:1fr}}
+@media(max-width:560px){
+  .lect{flex-direction:column;text-align:center;align-items:center}
+}
+
+footer{border-top:1px solid var(--line);padding:32px 56px;font-size:12.5px;color:#9aa2b1}
+
+/* mobile */
+.menu-btn{display:none}
+@media(max-width:900px){
+  .sidebar{transform:translateX(-100%);transition:transform .25s}
+  .sidebar.open{transform:none}
+  main{margin-left:0}
+  .wrap,.hero,footer{padding-left:24px;padding-right:24px}
+  .menu-btn{
+    display:flex;position:fixed;top:16px;left:16px;z-index:200;
+    width:42px;height:42px;border-radius:10px;border:1px solid var(--line);
+    background:#fff;align-items:center;justify-content:center;cursor:pointer;font-size:18px;
+  }
+  .hero{padding-top:80px}
+}
+</style>
+</head>
+<body>
+
+<button class="menu-btn" onclick="document.querySelector('.sidebar').classList.toggle('open')">☰</button>
+
+<aside class="sidebar">
+  <a class="brand" href="#" onclick="go('home');return false">
+    <div class="brand-mark">AI</div>
+    <div class="brand-title">AI Capabilities<br>&amp; SME Resilience</div>
+    <div class="brand-sub">Research Project</div>
+  </a>
+
+  <div class="nav-label">Contents</div>
+  <nav class="nav">
+    <a href="#" data-page="home" class="active" onclick="go('home');return false"><span class="num">—</span> Home</a>
+    <a href="#" data-page="c1" onclick="go('c1');return false"><span class="num">01</span> Chapter 1</a>
+    <a href="#" data-page="c2" onclick="go('c2');return false"><span class="num">02</span> Chapter 2</a>
+    <a href="#" data-page="c3" onclick="go('c3');return false"><span class="num">03</span> Chapter 3</a>
+  </nav>
+
+  <div class="sidebar-foot">
+    Business Research Methods<br>Group Project · 2026
+  </div>
+</aside>
+
+<main>
+
+<!-- ============ HOME ============ -->
+<div class="page active" id="home">
+
+  <div class="hero">
+    <img src="assets/img/hero.jpg" alt="Business team analysing data" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1573164713988-8665fc963095?auto=format&amp;fit=crop&amp;w=2000&amp;q=80'">
+    <div class="hero-inner">
+      <span class="eyebrow">Business Research Methods</span>
+      <h1>Artificial Intelligence Capabilities and the <em>Sustainable Resilience</em> of SMEs</h1>
+      <p>Examining how AI capabilities build organizational agility — and how that agility helps small and medium enterprises withstand disruption and stay competitive.</p>
+    </div>
+  </div>
+
+  <section>
+    <div class="wrap">
+      <div class="sec-tag">Introduction</div>
+      <h2>Background of Study</h2>
+      <p class="lead">Small and medium enterprises are the backbone of the economy, yet they face pressures that shift faster than they can traditionally respond to. This study looks at whether AI capabilities offer a route to lasting resilience.</p>
+
+      <ol class="points">
+        <li>SMEs operate in increasingly uncertain environments due to <strong>technological change, economic uncertainty, changing customer behaviour and competition</strong>.</li>
+        <li><strong>Artificial Intelligence (AI)</strong> can help SMEs analyse information, improve decision-making, predict changes and respond more effectively.</li>
+        <li>However, AI adoption alone is not enough. SMEs need strong <strong>AI Infrastructure, AI Skills &amp; Expertise, AI Managerial Alignment</strong> and <strong>AI Data Governance</strong>.</li>
+        <li>These AI capabilities can strengthen <strong>Organizational Agility</strong>, allowing SMEs to respond quickly and adapt their operations and resources.</li>
+        <li>Greater Organizational Agility can ultimately strengthen <strong>SME Sustainable Resilience</strong>, helping SMEs withstand disruptions and remain competitive over the long term.</li>
+      </ol>
+
+      <div class="chain">
+        <span class="chip">AI Capabilities</span>
+        <span class="arrow">→</span>
+        <span class="chip">Organizational Agility</span>
+        <span class="arrow">→</span>
+        <span class="chip acc">Sustainable Resilience</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="alt">
+    <div class="wrap">
+      <div class="sec-tag">Our Team</div>
+      <h2>Lecturer &amp; Group Members</h2>
+
+      <div class="grp-label">Lecturer</div>
+      <div class="lect">
+        <div class="ph">
+          <span class="ini">AD</span>
+          <img src="assets/img/lecturer.png" alt="Sir Amirul Daniel" onerror="this.style.display='none'">
+        </div>
+        <div>
+          <span class="badge">Lecturer</span>
+          <h3>Sir Amirul Daniel</h3>
+          <div class="role">Lecturer in charge of Business Research Method</div>
+        </div>
+      </div>
+
+      <div class="grp-label">Group Members</div>
+      <div class="team-grid">
+        <div class="member">
+          <div class="ph"><span class="ini">WM</span><img src="assets/img/member1.jpg" alt="Wan Mukhles Johan Tan" onerror="this.style.display='none'"></div>
+          <h3>Wan Mukhles Johan Tan</h3>
+          <div class="matric">62212225760</div>
+        </div>
+        <div class="member">
+          <div class="ph"><span class="ini">MS</span><img src="assets/img/member2.jpg" alt="Muhd Syahmi Aiman bin Badrul Hisham" onerror="this.style.display='none'"></div>
+          <h3>Muhd Syahmi Aiman bin Badrul Hisham</h3>
+          <div class="matric">62212225009</div>
+        </div>
+        <div class="member">
+          <div class="ph"><span class="ini">FA</span><img src="assets/img/member3.jpg" alt="Firhan Alaika Gazni bin Muhammad Ghazali" onerror="this.style.display='none'"></div>
+          <h3>Firhan Alaika Gazni bin Muhammad Ghazali</h3>
+          <div class="matric">62212225650</div>
+        </div>
+        <div class="member">
+          <div class="ph"><span class="ini">WA</span><img src="assets/img/member4.jpg" alt="Wan Muhammad Afrizal bin Wan Azmin" onerror="this.style.display='none'"></div>
+          <h3>Wan Muhammad Afrizal bin Wan Azmin</h3>
+          <div class="matric">62212124521</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>© 2026 · Business Research Methods Group Project</footer>
+</div>
+
+<!-- ============ CHAPTER 1 ============ -->
+<div class="page" id="c1">
+
+  <div class="wrap chap-head">
+    <div class="sec-tag">Chapter 01</div>
+    <h2>Introduction</h2>
+    <p class="lead">Problem statement, research objectives, research questions, hypotheses and the scope of the study.</p>
+  </div>
+
+  <div class="subnav">
+    <div class="wrap">
+      <a href="#c1-problem">Problem Statement</a>
+      <a href="#c1-ro">Objectives &amp; Questions</a>
+      <a href="#c1-hyp">Hypotheses</a>
+      <a href="#c1-scope">Scope</a>
+    </div>
+  </div>
+
+  <div class="wrap">
+
+    <div class="block" id="c1-problem">
+      <div class="sec-tag">1.1</div>
+      <h2>Problem Statement</h2>
+      <ul class="bullets">
+        <li>SMEs face increasing challenges from <strong>technological disruption, economic uncertainty, and competitive pressure</strong>.</li>
+        <li>AI can improve decision-making, automation, and business responsiveness, but <strong>adoption alone does not guarantee resilience</strong>.</li>
+        <li>Existing studies often examine AI capability as a <strong>single construct</strong>, making it difficult to understand the role of individual AI dimensions.</li>
+        <li>Limited research explains how <strong>AI Infrastructure, AI Skills &amp; Expertise, AI Managerial Alignment,</strong> and <strong>AI Data Governance</strong> contribute to SME Sustainable Resilience through Organizational Agility.</li>
+      </ul>
+    </div>
+
+    <div class="block" id="c1-ro">
+      <div class="sec-tag">1.2 &ndash; 1.3</div>
+      <h2>Research Objectives &amp; Questions</h2>
+      <p class="lead">Each objective is paired with the research question it answers.</p>
+
+      <div class="pair">
+        <div class="pair-head">Research Objectives</div>
+        <div class="pair-head">Research Questions</div>
+
+        <div class="cell"><span class="tag">RO1</span>To examine the relationship between AI Infrastructure and Organizational Agility.</div>
+        <div class="cell"><span class="tag">RQ1</span>Does AI Infrastructure significantly influence Organizational Agility among SMEs?</div>
+
+        <div class="cell"><span class="tag">RO2</span>To examine the relationship between AI Skills and Expertise and Organizational Agility.</div>
+        <div class="cell"><span class="tag">RQ2</span>Do AI Skills and Expertise significantly influence Organizational Agility among SMEs?</div>
+
+        <div class="cell"><span class="tag">RO3</span>To examine the relationship between AI Managerial Alignment and Organizational Agility.</div>
+        <div class="cell"><span class="tag">RQ3</span>Does AI Managerial Alignment significantly influence Organizational Agility among SMEs?</div>
+
+        <div class="cell"><span class="tag">RO4</span>To examine the relationship between AI Data Governance and Organizational Agility.</div>
+        <div class="cell"><span class="tag">RQ4</span>Does AI Data Governance significantly influence Organizational Agility among SMEs?</div>
+
+        <div class="cell"><span class="tag">RO5</span>To examine the relationship between Organizational Agility and SME Sustainable Resilience.</div>
+        <div class="cell"><span class="tag">RQ5</span>Does Organizational Agility significantly influence SME Sustainable Resilience?</div>
+      </div>
+    </div>
+
+    <div class="block" id="c1-hyp">
+      <div class="sec-tag">1.4</div>
+      <h2>Research Hypotheses</h2>
+      <div class="hyp">
+        <div class="row"><span class="code">H1</span><span><strong>AI Infrastructure</strong> <span class="plus">positively influences</span> Organizational Agility.</span></div>
+        <div class="row"><span class="code">H2</span><span><strong>AI Skills and Expertise</strong> <span class="plus">positively influence</span> Organizational Agility.</span></div>
+        <div class="row"><span class="code">H3</span><span><strong>AI Managerial Alignment</strong> <span class="plus">positively influences</span> Organizational Agility.</span></div>
+        <div class="row"><span class="code">H4</span><span><strong>AI Data Governance</strong> <span class="plus">positively influences</span> Organizational Agility.</span></div>
+        <div class="row"><span class="code">H5</span><span><strong>Organizational Agility</strong> <span class="plus">positively influences</span> SME Sustainable Resilience.</span></div>
+      </div>
+    </div>
+
+    <div class="block" id="c1-scope">
+      <div class="sec-tag">1.5</div>
+      <h2>Scope of Study</h2>
+      <ul class="bullets">
+        <li>Focuses on <strong>Malaysian SMEs</strong>.</li>
+        <li>Examines four AI capability dimensions: <strong>AI Infrastructure, AI Skills &amp; Expertise, AI Managerial Alignment,</strong> and <strong>AI Data Governance</strong>.</li>
+        <li><strong>Organizational Agility</strong> acts as the mediating variable, while <strong>SME Sustainable Resilience</strong> is the dependent variable.</li>
+        <li>Data will be collected from <strong>SME owners, managers, and decision-makers</strong> using structured questionnaires.</li>
+        <li>The study adopts a <strong>quantitative, cross-sectional</strong> research approach.</li>
+      </ul>
+
+      <div class="cards">
+        <div class="card"><div class="k">Independent Variables</div><p>AI Infrastructure &middot; AI Skills &amp; Expertise &middot; AI Managerial Alignment &middot; AI Data Governance</p></div>
+        <div class="card"><div class="k">Mediating Variable</div><p>Organizational Agility</p></div>
+        <div class="card"><div class="k">Dependent Variable</div><p>SME Sustainable Resilience</p></div>
+        <div class="card"><div class="k">Method</div><p>Quantitative, cross-sectional survey of Malaysian SME owners, managers and decision-makers</p></div>
+      </div>
+    </div>
+
+  </div>
+
+  <footer>© 2026 · Business Research Methods Group Project</footer>
+</div>
+
+<!-- ============ CHAPTER 2 ============ -->
+<div class="page" id="c2">
+
+  <div class="wrap chap-head">
+    <div class="sec-tag">Chapter 02</div>
+    <h2>Literature Review</h2>
+    <p class="lead">Underpinning theory, variables of study and the conceptual framework.</p>
+  </div>
+
+  <div class="subnav">
+    <div class="wrap">
+      <a href="#c2-theory">Underpinning Theory</a>
+      <a href="#c2-vars">Variables of Study</a>
+      <a href="#c2-fw">Framework</a>
+    </div>
+  </div>
+
+  <div class="wrap">
+
+    <div class="block" id="c2-theory">
+      <div class="sec-tag">2.1</div>
+      <h2>Dynamic Capabilities Theory (DCT)</h2>
+      <p class="theory-cite">Teece, Pisano &amp; Shuen (1997)</p>
+      <p class="lead">The study uses DCT to explain how SMEs use, adapt and reconfigure their capabilities to respond effectively to changing business environments.</p>
+
+      <div class="grp-label">Three Key Processes</div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-n">01</div>
+          <div>
+            <h3>Sensing</h3>
+            <p>The ability to identify changes, opportunities and threats in the business environment.</p>
+            <div class="ai-note">AI capabilities can help SMEs obtain and analyse information to detect changes more quickly.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-n">02</div>
+          <div>
+            <h3>Seizing</h3>
+            <p>The ability to make decisions and allocate resources to respond to identified opportunities or threats.</p>
+            <div class="ai-note">AI can support SMEs by improving decision-making and helping them respond more effectively.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-n">03</div>
+          <div>
+            <h3>Reconfiguring</h3>
+            <p>The ability to adjust organizational resources, processes and capabilities when conditions change.</p>
+            <div class="ai-note">This allows SMEs to adapt their operations and remain competitive during disruptions.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="grp-label">Application to This Study</div>
+      <div class="callout">
+        <p>AI Infrastructure, AI Skills &amp; Expertise, AI Managerial Alignment and AI Data Governance provide capabilities that can improve an SME&rsquo;s ability to obtain information and make informed decisions.</p>
+        <p>These capabilities strengthen <strong>Organizational Agility</strong>, helping SMEs respond rapidly to environmental changes and ultimately improve <strong>SME Sustainable Resilience</strong>.</p>
+      </div>
+    </div>
+
+    <div class="block" id="c2-vars">
+      <div class="sec-tag">2.2</div>
+      <h2>Variables of Study</h2>
+      <p class="lead">This study consists of four independent variables, one mediating variable, and one dependent variable.</p>
+
+      <div class="grp-label">Independent Variables (IV)</div>
+      <div class="vars">
+        <div class="var">
+          <div class="var-code">IV1</div>
+          <div><h3>AI Infrastructure</h3><p>The technological resources needed to support AI, including hardware, software, digital systems and platforms.</p></div>
+        </div>
+        <div class="var">
+          <div class="var-code">IV2</div>
+          <div><h3>AI Skills &amp; Expertise</h3><p>The knowledge, skills and technical expertise employees need to effectively use and apply AI.</p></div>
+        </div>
+        <div class="var">
+          <div class="var-code">IV3</div>
+          <div><h3>AI Managerial Alignment</h3><p>The extent to which management supports AI and aligns AI initiatives with the company&rsquo;s business objectives.</p></div>
+        </div>
+        <div class="var">
+          <div class="var-code">IV4</div>
+          <div><h3>AI Data Governance</h3><p>The policies and procedures used to ensure AI-related data is accurate, secure, reliable and responsibly managed.</p></div>
+        </div>
+      </div>
+
+      <div class="grp-label">Mediating Variable (MV)</div>
+      <div class="vars">
+        <div class="var">
+          <div class="var-code mv">MV</div>
+          <div><h3>Organizational Agility</h3><p>The ability of an SME to quickly recognize changes and adjust its decisions, processes and resources accordingly.</p></div>
+        </div>
+      </div>
+
+      <div class="grp-label">Dependent Variable (DV)</div>
+      <div class="vars">
+        <div class="var">
+          <div class="var-code dv">DV</div>
+          <div><h3>SME Sustainable Resilience</h3><p>The ability of an SME to withstand disruptions, adapt to changes, maintain operations and remain viable over the long term.</p></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="block" id="c2-fw">
+      <div class="sec-tag">2.3</div>
+      <h2>Conceptual Framework</h2>
+      <p class="lead">Four AI capability dimensions influence Organizational Agility, which in turn influences SME Sustainable Resilience.</p>
+
+      <div class="figure">
+        <svg viewBox="0 0 1000 620" role="img" aria-label="Conceptual framework: AI Infrastructure, AI Skills and Expertise, AI Managerial Alignment and AI Data Governance each influence Organizational Agility, which influences SME Sustainable Resilience">
+          <defs>
+            <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="#0e1420"/>
+            </marker>
+          </defs>
+
+          <!-- IV boxes -->
+          <rect class="fw-box-a" x="20"  y="20"  width="230" height="110" rx="10"/>
+          <text class="fw-t" x="135" y="68">AI</text>
+          <text class="fw-t" x="135" y="88">INFRASTRUCTURE</text>
+
+          <rect class="fw-box-a" x="20"  y="170" width="230" height="110" rx="10"/>
+          <text class="fw-t" x="135" y="218">AI SKILLS &amp;</text>
+          <text class="fw-t" x="135" y="238">EXPERTISE</text>
+
+          <rect class="fw-box-a" x="20"  y="320" width="230" height="110" rx="10"/>
+          <text class="fw-t" x="135" y="368">AI MANAGERIAL</text>
+          <text class="fw-t" x="135" y="388">ALIGNMENT</text>
+
+          <rect class="fw-box-a" x="20"  y="470" width="230" height="110" rx="10"/>
+          <text class="fw-t" x="135" y="518">AI DATA</text>
+          <text class="fw-t" x="135" y="538">GOVERNANCE</text>
+
+          <!-- Mediator -->
+          <rect class="fw-box" x="420" y="230" width="220" height="140" rx="10"/>
+          <text class="fw-t" x="530" y="295">ORGANIZATIONAL</text>
+          <text class="fw-t" x="530" y="315">AGILITY</text>
+
+          <!-- DV -->
+          <rect class="fw-box-d" x="760" y="240" width="220" height="120" rx="10"/>
+          <text class="fw-t" x="870" y="293">SME SUSTAINABLE</text>
+          <text class="fw-t" x="870" y="313">RESILIENCE</text>
+
+          <!-- arrows -->
+          <path class="fw-line" d="M250,75  L412,255"/>
+          <text class="fw-h" x="330" y="145">H1</text>
+
+          <path class="fw-line" d="M250,225 L412,285"/>
+          <text class="fw-h" x="330" y="235">H2</text>
+
+          <path class="fw-line" d="M250,375 L412,315"/>
+          <text class="fw-h" x="330" y="375">H3</text>
+
+          <path class="fw-line" d="M250,525 L412,345"/>
+          <text class="fw-h" x="330" y="470">H4</text>
+
+          <path class="fw-line" d="M640,300 L752,300"/>
+          <text class="fw-h" x="696" y="285">H5</text>
+        </svg>
+      </div>
+      <p class="figcap">Figure 2.1 &mdash; Conceptual framework of the study</p>
+    </div>
+
+  </div>
+
+  <footer>© 2026 · Business Research Methods Group Project</footer>
+</div>
+
+<!-- ============ CHAPTER 3 ============ -->
+<div class="page" id="c3">
+
+  <div class="wrap chap-head">
+    <div class="sec-tag">Chapter 03</div>
+    <h2>Research Methodology</h2>
+    <p class="lead">Research design, data collection, and the results of the PLS-SEM analysis.</p>
+  </div>
+
+  <div class="subnav">
+    <div class="wrap">
+      <a href="#c3-method">Methodology</a>
+      <a href="#c3-collect">Data Collection</a>
+      <a href="#c3-model">Generated Model</a>
+      <a href="#c3-boot">Bootstrapping</a>
+      <a href="#c3-concl">Conclusion</a>
+    </div>
+  </div>
+
+  <div class="wrap">
+
+    <div class="block" id="c3-method">
+      <div class="sec-tag">3.1</div>
+      <h2>Research Methodology</h2>
+
+      <div class="spec">
+        <div class="r"><div class="k">Research Approach</div><div class="v">Quantitative Research</div></div>
+        <div class="r"><div class="k">Research Design</div><div class="v">Cross-sectional and explanatory study</div></div>
+        <div class="r"><div class="k">Population</div><div class="v">Small and Medium Enterprises (SMEs) operating in Malaysia</div></div>
+        <div class="r"><div class="k">Target Respondents</div><div class="v">SME owners, founders, directors, managers and technology/operations decision-makers</div></div>
+        <div class="r"><div class="k">Sampling Method</div><div class="v">Purposive Sampling &amp; Convenience Sampling</div></div>
+        <div class="r"><div class="k">Target Sample Size</div><div class="v">Minimum 150 usable responses</div></div>
+        <div class="r"><div class="k">Research Instrument</div><div class="v">Structured Questionnaire</div></div>
+        <div class="r"><div class="k">Measurement Scale</div><div class="v">5-Point Likert Scale<small>1 = Strongly Disagree &rarr; 5 = Strongly Agree</small></div></div>
+      </div>
+
+      <div class="likert">
+        <div><b>1</b>Strongly Disagree</div>
+        <div><b>2</b>Disagree</div>
+        <div><b>3</b>Neutral</div>
+        <div><b>4</b>Agree</div>
+        <div><b>5</b>Strongly Agree</div>
+      </div>
+    </div>
+
+    <div class="block" id="c3-collect">
+      <div class="sec-tag">3.2</div>
+      <h2>Data Collection</h2>
+
+      <div class="spec">
+        <div class="r"><div class="k">Instrument</div><div class="v">Structured Online Questionnaire using Google Forms</div></div>
+        <div class="r"><div class="k">Respondents</div><div class="v">Minimum 150 usable responses</div></div>
+        <div class="r"><div class="k">Distribution Channels</div><div class="v">Email, LinkedIn, SME networks, business associations, professional contacts and business groups</div></div>
+      </div>
+
+      <div class="grp-label">Questionnaire Structure</div>
+      <div class="two">
+        <div class="qbox">
+          <h3>Section A &mdash; Demographics</h3>
+          <ul>
+            <li>Gender</li>
+            <li>Age</li>
+            <li>Education Level</li>
+            <li>Position in Business</li>
+            <li>Industry Sector</li>
+            <li>Number of Employees</li>
+          </ul>
+        </div>
+        <div class="qbox">
+          <h3>Section B &mdash; Research Variables</h3>
+          <ul>
+            <li>IV1 &mdash; AI Infrastructure <span class="n">5 items</span></li>
+            <li>IV2 &mdash; AI Skills &amp; Expertise <span class="n">5 items</span></li>
+            <li>IV3 &mdash; AI Managerial Alignment <span class="n">5 items</span></li>
+            <li>IV4 &mdash; AI Data Governance <span class="n">5 items</span></li>
+            <li>MV &mdash; Organizational Agility <span class="n">5 items</span></li>
+            <li>DV &mdash; SME Sustainable Resilience <span class="n">5 items</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="block" id="c3-model">
+      <div class="sec-tag">3.3</div>
+      <h2>Data Analysis &mdash; Generated Model</h2>
+      <p class="lead">The model was analysed using SmartPLS (PLS-SEM). All indicators recorded outer loadings above 0.50 and were retained in the model.</p>
+
+      <div class="figure">
+          <svg viewBox="0 0 1180 1010" role="img" aria-label="PLS-SEM path diagram">
+          <defs><marker id="pah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#9aa2b1"/></marker><marker id="pahb" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#1f4fd8"/></marker></defs>
+          <rect x="0" y="0" width="1180" height="1010" fill="#fbfbfc"/>
+          <circle class="pls-lv" cx="250" cy="120" r="38"/>
+          <text class="pls-nm" x="250" y="178">IV1</text>
+          <rect class="pls-ind" x="20" y="20" width="105" height="30" rx="4"/>
+          <text class="pls-ind-t" x="72.5" y="40">X1.1</text>
+          <path class="pls-arw" d="M212,120 L133,35.0"/>
+          <text class="pls-num" x="196" y="32">0.552</text>
+          <rect class="pls-ind" x="20" y="70" width="105" height="30" rx="4"/>
+          <text class="pls-ind-t" x="72.5" y="90">X1.2</text>
+          <path class="pls-arw" d="M212,120 L133,85.0"/>
+          <text class="pls-num" x="196" y="82">0.899</text>
+          <rect class="pls-ind" x="20" y="120" width="105" height="30" rx="4"/>
+          <text class="pls-ind-t" x="72.5" y="140">X1.3</text>
+          <path class="pls-arw" d="M212,120 L133,135.0"/>
+          <text class="pls-num" x="163" y="132">0.813</text>
+          <rect class="pls-ind" x="20" y="170" width="105" height="30" rx="4"/>
+          <text class="pls-ind-t" x="72.5" y="190">X1.4</text>
+          <path class="pls-arw" d="M212,120 L133,185.0"/>
+          <text class="pls-num" x="196" y="182">0.884</text>
+          <rect class="pls-ind" x="20" y="220" width="105" height="30" rx="4"/>
+          <text class="pls-ind-t" x="72.5" y="240">X1.5</text>
+          <path class="pls-arw" d="M212,120 L133,235.0"/>
+          <text class="pls-num" x="196" y="232">0.813</text>
+          <path class="pls-arw thick" d="M288,120 L594,505"/>
+          <text class="pls-num hi" x="444.0" y="304.5">0.943</text>
+          <circle class="pls-lv" cx="250" cy="370" r="38"/>
+          <text class="pls-nm" x="250" y="428">IV2</text>
+          <rect class="pls-ind" x="20" y="270" width="105" height="30" rx="4"/>
+          <text class="pls-ind-t" x="72.5" y="290">X2.1</text>
+          <path class="pls-arw" d="M212,370 L133,285.0"/>
+          <text class="pls-num" x="196" y="282">0.748</text>
+          <rect class="pls-ind" x="20" y="320" width="105" height="30" rx="4"/>
+          <text class="pls-ind-t" x="72.5" y="340">X2.2</text>
+          <path class="pls-arw" d="M212,370 L133,335.0"/>
+          <text class="pls-num" x="196" y="332">0.867</text>
+          <rect class="pls-ind" x="20" y="370" width="105" height="30" rx="4"/>
+          <text class="pls-ind-t" x="72.5" y="390">X2.3</text>
+          <path class="pls-arw" d="M212,370 L133,385.0"/>
+          <text class="pls-num" x="163" y="382">0.843</text>
+          <rect class="pls-ind" x="20" y="420" width="105" height="30" rx="4"/>
+          <text class="pls-ind-t" x="72.5" y="440">X2.4</text>
+          <path class="pls-arw" d="M212,370 L133,435.0"/>
+          <text class="pls-num" x="196" y="432">0.781</text>
+          <rect class="pls-ind" x="20" y="470" width="105" height="30" rx="4"/>
+          <text class="pls-ind-t" x="72.5" y="490">X2.5</text>
+          <path class="pls-arw" d="M212,370 L133,485.0"/>
+          <text class="pls-num" x="196" y="482">0.690</text>
+          <path class="pls-arw" d="M288,370 L594,505"/>
+          <text class="pls-num" x="444.0" y="429.5">0.028</text>
+          <circle class="pls-lv" cx="250" cy="620" r="38"/>
+          <text class="pls-nm" x="250" y="678">IV3</text>
+          <rect class="pls-ind" x="20" y="520" width="105" height="30" rx="4"/>
+          <text class="pls-ind-t" x="72.5" y="540">X3.1</text>
+          <path class="pls-arw" d="M212,620 L133,535.0"/>
+          <text class="pls-num" x="196" y="532">0.760</text>
+          <rect class="pls-ind" x="20" y="570" width="105" height="30" rx="4"/>
+          <text class="pls-ind-t" x="72.5" y="590">X3.2</text>
+          <path class="pls-arw" d="M212,620 L133,585.0"/>
+          <text class="pls-num" x="196" y="582">0.692</text>
+          <rect class="pls-ind" x="20" y="620" width="105" height="30" rx="4"/>
+          <text class="pls-ind-t" x="72.5" y="640">X3.3</text>
+          <path class="pls-arw" d="M212,620 L133,635.0"/>
+          <text class="pls-num" x="163" y="632">0.836</text>
+          <rect class="pls-ind" x="20" y="670" width="105" height="30" rx="4"/>
+          <text class="pls-ind-t" x="72.5" y="690">X3.4</text>
+          <path class="pls-arw" d="M212,620 L133,685.0"/>
+          <text class="pls-num" x="196" y="682">0.767</text>
+          <rect class="pls-ind" x="20" y="720" width="105" height="30" rx="4"/>
+          <text class="pls-ind-t" x="72.5" y="740">X3.5</text>
+          <path class="pls-arw" d="M212,620 L133,735.0"/>
+          <text class="pls-num" x="196" y="732">0.590</text>
+          <path class="pls-arw" d="M288,620 L594,505"/>
+          <text class="pls-num" x="444.0" y="554.5">-0.005</text>
+          <circle class="pls-lv" cx="250" cy="870" r="38"/>
+          <text class="pls-nm" x="250" y="928">IV4</text>
+          <rect class="pls-ind" x="20" y="770" width="105" height="30" rx="4"/>
+          <text class="pls-ind-t" x="72.5" y="790">X4.1</text>
+          <path class="pls-arw" d="M212,870 L133,785.0"/>
+          <text class="pls-num" x="196" y="782">0.865</text>
+          <rect class="pls-ind" x="20" y="820" width="105" height="30" rx="4"/>
+          <text class="pls-ind-t" x="72.5" y="840">X4.2</text>
+          <path class="pls-arw" d="M212,870 L133,835.0"/>
+          <text class="pls-num" x="196" y="832">0.838</text>
+          <rect class="pls-ind" x="20" y="870" width="105" height="30" rx="4"/>
+          <text class="pls-ind-t" x="72.5" y="890">X4.3</text>
+          <path class="pls-arw" d="M212,870 L133,885.0"/>
+          <text class="pls-num" x="163" y="882">0.891</text>
+          <rect class="pls-ind" x="20" y="920" width="105" height="30" rx="4"/>
+          <text class="pls-ind-t" x="72.5" y="940">X4.4</text>
+          <path class="pls-arw" d="M212,870 L133,935.0"/>
+          <text class="pls-num" x="196" y="932">0.812</text>
+          <rect class="pls-ind" x="20" y="970" width="105" height="30" rx="4"/>
+          <text class="pls-ind-t" x="72.5" y="990">X4.5</text>
+          <path class="pls-arw" d="M212,870 L133,985.0"/>
+          <text class="pls-num" x="196" y="982">0.602</text>
+          <path class="pls-arw" d="M288,870 L594,505"/>
+          <text class="pls-num" x="444.0" y="679.5">0.034</text>
+          <circle class="pls-lv" cx="640" cy="505" r="42"/>
+          <text class="pls-lv-t" x="640" y="509">0.961</text>
+          <text class="pls-nm" x="640" y="569">M</text>
+          <rect class="pls-ind" x="785" y="330" width="85" height="30" rx="4"/>
+          <text class="pls-ind-t" x="827" y="350">A1</text>
+          <path class="pls-arw" d="M682,505 L777,345.0"/>
+          <text class="pls-num" x="716" y="425.0">0.880</text>
+          <rect class="pls-ind" x="785" y="418" width="85" height="30" rx="4"/>
+          <text class="pls-ind-t" x="827" y="438">A2</text>
+          <path class="pls-arw" d="M682,505 L777,433.0"/>
+          <text class="pls-num" x="716" y="469.0">0.819</text>
+          <rect class="pls-ind" x="785" y="506" width="85" height="30" rx="4"/>
+          <text class="pls-ind-t" x="827" y="526">A3</text>
+          <path class="pls-arw" d="M682,505 L777,521.0"/>
+          <text class="pls-num" x="716" y="513.0">0.872</text>
+          <rect class="pls-ind" x="785" y="594" width="85" height="30" rx="4"/>
+          <text class="pls-ind-t" x="827" y="614">A4</text>
+          <path class="pls-arw" d="M682,505 L777,609.0"/>
+          <text class="pls-num" x="716" y="557.0">0.820</text>
+          <rect class="pls-ind" x="785" y="682" width="85" height="30" rx="4"/>
+          <text class="pls-ind-t" x="827" y="702">A5</text>
+          <path class="pls-arw" d="M682,505 L777,697.0"/>
+          <text class="pls-num" x="716" y="601.0">0.766</text>
+          <path class="pls-arw thick" d="M682,505 L964,505"/>
+          <text class="pls-num hi" x="825.0" y="497">0.768</text>
+          <circle class="pls-lv" cx="1010" cy="505" r="42"/>
+          <text class="pls-lv-t" x="1010" y="509">0.589</text>
+          <text class="pls-nm" x="1010" y="569">DV</text>
+          <rect class="pls-ind" x="1120" y="375" width="85" height="30" rx="4"/>
+          <text class="pls-ind-t" x="1162" y="395">B1</text>
+          <path class="pls-arw" d="M1052,505 L1112,390.0"/>
+          <text class="pls-num" x="1072" y="447.5">0.750</text>
+          <rect class="pls-ind" x="1120" y="437" width="85" height="30" rx="4"/>
+          <text class="pls-ind-t" x="1162" y="457">B2</text>
+          <path class="pls-arw" d="M1052,505 L1112,452.0"/>
+          <text class="pls-num" x="1072" y="478.5">0.685</text>
+          <rect class="pls-ind" x="1120" y="499" width="85" height="30" rx="4"/>
+          <text class="pls-ind-t" x="1162" y="519">B3</text>
+          <path class="pls-arw" d="M1052,505 L1112,514.0"/>
+          <text class="pls-num" x="1072" y="509.5">0.894</text>
+          <rect class="pls-ind" x="1120" y="561" width="85" height="30" rx="4"/>
+          <text class="pls-ind-t" x="1162" y="581">B4</text>
+          <path class="pls-arw" d="M1052,505 L1112,576.0"/>
+          <text class="pls-num" x="1072" y="540.5">0.778</text>
+          <rect class="pls-ind" x="1120" y="623" width="85" height="30" rx="4"/>
+          <text class="pls-ind-t" x="1162" y="643">B5</text>
+          <path class="pls-arw" d="M1052,505 L1112,638.0"/>
+          <text class="pls-num" x="1072" y="571.5">0.792</text>
+          </svg>
+      </div>
+      <p class="figcap">Figure 3.1 &mdash; Generated model: outer loadings and path coefficients</p>
+
+      <div class="grp-label">R&sup2; Results</div>
+      <div class="stats">
+        <div class="stat"><div class="sub">R&sup2;</div><div class="val">0.961</div><div class="lbl">Organizational Agility</div></div>
+        <div class="stat"><div class="sub">R&sup2;</div><div class="val">0.589</div><div class="lbl">SME Sustainable Resilience</div></div>
+      </div>
+
+      <div class="grp-label">Path Coefficients</div>
+      <div class="tblwrap">
+      <table class="res">
+        <tr><th>Path</th><th>Coefficient</th></tr>
+        <tr><td class="path">AI Infrastructure &rarr; Organizational Agility</td><td class="num">0.943</td></tr>
+        <tr><td class="path">AI Skills &amp; Expertise &rarr; Organizational Agility</td><td class="num">0.028</td></tr>
+        <tr><td class="path">AI Managerial Alignment &rarr; Organizational Agility</td><td class="num">&minus;0.005</td></tr>
+        <tr><td class="path">AI Data Governance &rarr; Organizational Agility</td><td class="num">0.034</td></tr>
+        <tr><td class="path">Organizational Agility &rarr; SME Sustainable Resilience</td><td class="num">0.768</td></tr>
+      </table>
+      </div>
+
+      <div class="callout">
+        <p><strong>AI Infrastructure</strong> showed the strongest relationship with Organizational Agility, while <strong>Organizational Agility</strong> showed a strong positive relationship with SME Sustainable Resilience.</p>
+      </div>
+    </div>
+
+    <div class="block" id="c3-boot">
+      <div class="sec-tag">3.4</div>
+      <h2>Bootstrapping &amp; Significance</h2>
+      <p class="lead">Bootstrapping was conducted to determine whether the relationships were statistically significant.</p>
+
+      <div class="figure">
+          <svg viewBox="0 0 1180 1010" role="img" aria-label="PLS-SEM path diagram">
+          <defs><marker id="pah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#9aa2b1"/></marker><marker id="pahb" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#1f4fd8"/></marker></defs>
+          <rect x="0" y="0" width="1180" height="1010" fill="#fbfbfc"/>
+          <circle class="pls-lv" cx="250" cy="120" r="38"/>
+          <text class="pls-nm" x="250" y="178">IV1</text>
+          <rect class="pls-ind" x="20" y="20" width="105" height="30" rx="4"/>
+          <text class="pls-ind-t" x="72.5" y="40">X1.1</text>
+          <path class="pls-arw" d="M212,120 L133,35.0"/>
+          <text class="pls-num" x="196" y="32">0.000</text>
+          <rect class="pls-ind" x="20" y="70" width="105" height="30" rx="4"/>
+          <text class="pls-ind-t" x="72.5" y="90">X1.2</text>
+          <path class="pls-arw" d="M212,120 L133,85.0"/>
+          <text class="pls-num" x="196" y="82">0.000</text>
+          <rect class="pls-ind" x="20" y="120" width="105" height="30" rx="4"/>
+          <text class="pls-ind-t" x="72.5" y="140">X1.3</text>
+          <path class="pls-arw" d="M212,120 L133,135.0"/>
+          <text class="pls-num" x="163" y="132">0.000</text>
+          <rect class="pls-ind" x="20" y="170" width="105" height="30" rx="4"/>
+          <text class="pls-ind-t" x="72.5" y="190">X1.4</text>
+          <path class="pls-arw" d="M212,120 L133,185.0"/>
+          <text class="pls-num" x="196" y="182">0.000</text>
+          <rect class="pls-ind" x="20" y="220" width="105" height="30" rx="4"/>
+          <text class="pls-ind-t" x="72.5" y="240">X1.5</text>
+          <path class="pls-arw" d="M212,120 L133,235.0"/>
+          <text class="pls-num" x="196" y="232">0.000</text>
+          <path class="pls-arw" d="M288,120 L594,505"/>
+          <text class="pls-num" x="444.0" y="304.5">0.000</text>
+          <circle class="pls-lv" cx="250" cy="370" r="38"/>
+          <text class="pls-nm" x="250" y="428">IV2</text>
+          <rect class="pls-ind" x="20" y="270" width="105" height="30" rx="4"/>
+          <text class="pls-ind-t" x="72.5" y="290">X2.1</text>
+          <path class="pls-arw" d="M212,370 L133,285.0"/>
+          <text class="pls-num" x="196" y="282">0.000</text>
+          <rect class="pls-ind" x="20" y="320" width="105" height="30" rx="4"/>
+          <text class="pls-ind-t" x="72.5" y="340">X2.2</text>
+          <path class="pls-arw" d="M212,370 L133,335.0"/>
+          <text class="pls-num" x="196" y="332">0.000</text>
+          <rect class="pls-ind" x="20" y="370" width="105" height="30" rx="4"/>
+          <text class="pls-ind-t" x="72.5" y="390">X2.3</text>
+          <path class="pls-arw" d="M212,370 L133,385.0"/>
+          <text class="pls-num" x="163" y="382">0.000</text>
+          <rect class="pls-ind" x="20" y="420" width="105" height="30" rx="4"/>
+          <text class="pls-ind-t" x="72.5" y="440">X2.4</text>
+          <path class="pls-arw" d="M212,370 L133,435.0"/>
+          <text class="pls-num" x="196" y="432">0.000</text>
+          <rect class="pls-ind" x="20" y="470" width="105" height="30" rx="4"/>
+          <text class="pls-ind-t" x="72.5" y="490">X2.5</text>
+          <path class="pls-arw" d="M212,370 L133,485.0"/>
+          <text class="pls-num" x="196" y="482">0.000</text>
+          <path class="pls-arw" d="M288,370 L594,505"/>
+          <text class="pls-num" x="444.0" y="429.5">0.606</text>
+          <circle class="pls-lv" cx="250" cy="620" r="38"/>
+          <text class="pls-nm" x="250" y="678">IV3</text>
+          <rect class="pls-ind" x="20" y="520" width="105" height="30" rx="4"/>
+          <text class="pls-ind-t" x="72.5" y="540">X3.1</text>
+          <path class="pls-arw" d="M212,620 L133,535.0"/>
+          <text class="pls-num" x="196" y="532">0.000</text>
+          <rect class="pls-ind" x="20" y="570" width="105" height="30" rx="4"/>
+          <text class="pls-ind-t" x="72.5" y="590">X3.2</text>
+          <path class="pls-arw" d="M212,620 L133,585.0"/>
+          <text class="pls-num" x="196" y="582">0.001</text>
+          <rect class="pls-ind" x="20" y="620" width="105" height="30" rx="4"/>
+          <text class="pls-ind-t" x="72.5" y="640">X3.3</text>
+          <path class="pls-arw" d="M212,620 L133,635.0"/>
+          <text class="pls-num" x="163" y="632">0.000</text>
+          <rect class="pls-ind" x="20" y="670" width="105" height="30" rx="4"/>
+          <text class="pls-ind-t" x="72.5" y="690">X3.4</text>
+          <path class="pls-arw" d="M212,620 L133,685.0"/>
+          <text class="pls-num" x="196" y="682">0.000</text>
+          <rect class="pls-ind" x="20" y="720" width="105" height="30" rx="4"/>
+          <text class="pls-ind-t" x="72.5" y="740">X3.5</text>
+          <path class="pls-arw" d="M212,620 L133,735.0"/>
+          <text class="pls-num" x="196" y="732">0.013</text>
+          <path class="pls-arw" d="M288,620 L594,505"/>
+          <text class="pls-num" x="444.0" y="554.5">0.919</text>
+          <circle class="pls-lv" cx="250" cy="870" r="38"/>
+          <text class="pls-nm" x="250" y="928">IV4</text>
+          <rect class="pls-ind" x="20" y="770" width="105" height="30" rx="4"/>
+          <text class="pls-ind-t" x="72.5" y="790">X4.1</text>
+          <path class="pls-arw" d="M212,870 L133,785.0"/>
+          <text class="pls-num" x="196" y="782">0.000</text>
+          <rect class="pls-ind" x="20" y="820" width="105" height="30" rx="4"/>
+          <text class="pls-ind-t" x="72.5" y="840">X4.2</text>
+          <path class="pls-arw" d="M212,870 L133,835.0"/>
+          <text class="pls-num" x="196" y="832">0.000</text>
+          <rect class="pls-ind" x="20" y="870" width="105" height="30" rx="4"/>
+          <text class="pls-ind-t" x="72.5" y="890">X4.3</text>
+          <path class="pls-arw" d="M212,870 L133,885.0"/>
+          <text class="pls-num" x="163" y="882">0.000</text>
+          <rect class="pls-ind" x="20" y="920" width="105" height="30" rx="4"/>
+          <text class="pls-ind-t" x="72.5" y="940">X4.4</text>
+          <path class="pls-arw" d="M212,870 L133,935.0"/>
+          <text class="pls-num" x="196" y="932">0.000</text>
+          <rect class="pls-ind" x="20" y="970" width="105" height="30" rx="4"/>
+          <text class="pls-ind-t" x="72.5" y="990">X4.5</text>
+          <path class="pls-arw" d="M212,870 L133,985.0"/>
+          <text class="pls-num" x="196" y="982">0.000</text>
+          <path class="pls-arw" d="M288,870 L594,505"/>
+          <text class="pls-num" x="444.0" y="679.5">0.555</text>
+          <circle class="pls-lv" cx="640" cy="505" r="42"/>
+          <text class="pls-lv-t" x="640" y="509">0.961</text>
+          <text class="pls-nm" x="640" y="569">M</text>
+          <rect class="pls-ind" x="785" y="330" width="85" height="30" rx="4"/>
+          <text class="pls-ind-t" x="827" y="350">A1</text>
+          <path class="pls-arw" d="M682,505 L777,345.0"/>
+          <text class="pls-num" x="716" y="425.0">0.000</text>
+          <rect class="pls-ind" x="785" y="418" width="85" height="30" rx="4"/>
+          <text class="pls-ind-t" x="827" y="438">A2</text>
+          <path class="pls-arw" d="M682,505 L777,433.0"/>
+          <text class="pls-num" x="716" y="469.0">0.000</text>
+          <rect class="pls-ind" x="785" y="506" width="85" height="30" rx="4"/>
+          <text class="pls-ind-t" x="827" y="526">A3</text>
+          <path class="pls-arw" d="M682,505 L777,521.0"/>
+          <text class="pls-num" x="716" y="513.0">0.000</text>
+          <rect class="pls-ind" x="785" y="594" width="85" height="30" rx="4"/>
+          <text class="pls-ind-t" x="827" y="614">A4</text>
+          <path class="pls-arw" d="M682,505 L777,609.0"/>
+          <text class="pls-num" x="716" y="557.0">0.000</text>
+          <rect class="pls-ind" x="785" y="682" width="85" height="30" rx="4"/>
+          <text class="pls-ind-t" x="827" y="702">A5</text>
+          <path class="pls-arw" d="M682,505 L777,697.0"/>
+          <text class="pls-num" x="716" y="601.0">0.000</text>
+          <path class="pls-arw" d="M682,505 L964,505"/>
+          <text class="pls-num" x="825.0" y="497">0.000</text>
+          <circle class="pls-lv" cx="1010" cy="505" r="42"/>
+          <text class="pls-lv-t" x="1010" y="509">0.589</text>
+          <text class="pls-nm" x="1010" y="569">DV</text>
+          <rect class="pls-ind" x="1120" y="375" width="85" height="30" rx="4"/>
+          <text class="pls-ind-t" x="1162" y="395">B1</text>
+          <path class="pls-arw" d="M1052,505 L1112,390.0"/>
+          <text class="pls-num" x="1072" y="447.5">0.000</text>
+          <rect class="pls-ind" x="1120" y="437" width="85" height="30" rx="4"/>
+          <text class="pls-ind-t" x="1162" y="457">B2</text>
+          <path class="pls-arw" d="M1052,505 L1112,452.0"/>
+          <text class="pls-num" x="1072" y="478.5">0.000</text>
+          <rect class="pls-ind" x="1120" y="499" width="85" height="30" rx="4"/>
+          <text class="pls-ind-t" x="1162" y="519">B3</text>
+          <path class="pls-arw" d="M1052,505 L1112,514.0"/>
+          <text class="pls-num" x="1072" y="509.5">0.000</text>
+          <rect class="pls-ind" x="1120" y="561" width="85" height="30" rx="4"/>
+          <text class="pls-ind-t" x="1162" y="581">B4</text>
+          <path class="pls-arw" d="M1052,505 L1112,576.0"/>
+          <text class="pls-num" x="1072" y="540.5">0.000</text>
+          <rect class="pls-ind" x="1120" y="623" width="85" height="30" rx="4"/>
+          <text class="pls-ind-t" x="1162" y="643">B5</text>
+          <path class="pls-arw" d="M1052,505 L1112,638.0"/>
+          <text class="pls-num" x="1072" y="571.5">0.000</text>
+          </svg>
+      </div>
+      <p class="figcap">Figure 3.2 &mdash; Bootstrapping results: p-values</p>
+
+      <div class="tblwrap">
+      <table class="res">
+        <tr><th>Hypothesis</th><th>Path</th><th>p-value</th><th>Result</th></tr>
+        <tr><td class="num">H1</td><td class="path">AI Infrastructure &rarr; Organizational Agility</td><td class="num">p &lt; 0.001</td><td><span class="pill sig">Significant</span></td></tr>
+        <tr><td class="num">H2</td><td class="path">AI Skills &amp; Expertise &rarr; Organizational Agility</td><td class="num">0.606</td><td><span class="pill ns">Not Significant</span></td></tr>
+        <tr><td class="num">H3</td><td class="path">AI Managerial Alignment &rarr; Organizational Agility</td><td class="num">0.919</td><td><span class="pill ns">Not Significant</span></td></tr>
+        <tr><td class="num">H4</td><td class="path">AI Data Governance &rarr; Organizational Agility</td><td class="num">0.555</td><td><span class="pill ns">Not Significant</span></td></tr>
+        <tr><td class="num">H5</td><td class="path">Organizational Agility &rarr; SME Sustainable Resilience</td><td class="num">p &lt; 0.001</td><td><span class="pill sig">Significant</span></td></tr>
+      </table>
+      </div>
+    </div>
+
+    <div class="block" id="c3-concl">
+      <div class="sec-tag">3.5</div>
+      <h2>Short Conclusion</h2>
+      <div class="callout">
+        <p>The results show that <strong>AI Infrastructure</strong> is the only AI capability dimension with a significant direct influence on Organizational Agility.</p>
+        <p><strong>Organizational Agility</strong> also has a significant positive influence on <strong>SME Sustainable Resilience</strong>.</p>
+      </div>
+    </div>
+
+  </div>
+
+  <footer>© 2026 · Business Research Methods Group Project</footer>
+</div>
+
+</main>
+
+<script>
+function go(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.toggle('active',p.id===id));
+  document.querySelectorAll('.nav a').forEach(a=>a.classList.toggle('active',a.dataset.page===id));
+  document.querySelector('.sidebar').classList.remove('open');
+  window.scrollTo(0,0);
+  spy();
+}
+
+/* highlight the sub-nav link for the section currently in view */
+function spy(){
+  const page = document.querySelector('.page.active');
+  const nav  = page && page.querySelector('.subnav');
+  if(!nav) return;
+  const links = [...nav.querySelectorAll('a')];
+  let current = links[0];
+  links.forEach(a=>{
+    const t = page.querySelector(a.getAttribute('href'));
+    if(t && t.getBoundingClientRect().top <= 120) current = a;
+  });
+  links.forEach(a=>a.classList.toggle('on', a===current));
+}
+window.addEventListener('scroll', spy, {passive:true});
+spy();
+</script>
+</body>
+</html>

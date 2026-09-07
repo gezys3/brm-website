@@ -1,0 +1,20 @@
+DROP YOUR PHOTOS IN THIS FOLDER
+================================
+
+Save each photo here using these EXACT filenames (all lowercase, .jpg):
+
+  lecturer.jpg   ->  Sir Amirul Daniel
+  member1.jpg    ->  Wan Mukhles Johan Tan            (62212225760)
+  member2.jpg    ->  Muhd Syahmi Aiman bin Badrul Hisham   (62212225009)
+  member3.jpg    ->  Firhan Alaika Gazni bin Muhammad Ghazali (62212225650)
+  member4.jpg    ->  Wan Muhammad Afrizal bin Wan Azmin   (62212124521)
+
+  hero.jpg       ->  homepage banner (already included - replace if you want)
+
+TIPS
+----
+* Square crops look best (e.g. 600x600). The card crops to a square automatically.
+* Until a photo is added, the card shows the person's initials instead. Nothing breaks.
+* Using .png instead of .jpg? Either rename the file to .jpg, or edit index.html
+  and change the matching src="assets/img/....jpg" to .png
+* Keep each photo under ~500KB so the site loads quickly.

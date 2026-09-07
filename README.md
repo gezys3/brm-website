@@ -38,6 +38,8 @@ python3 -m http.server 8000
 
 The site is fully static — no build step, no dependencies.
 
+**Live site:** https://gezys3.github.io/brm-website/
+
 **Netlify Drop** — drag the `brm-website` folder onto https://app.netlify.com/drop
 
 **GitHub Pages**
